@@ -1,0 +1,2 @@
+[console_scripts]
+olmes = oe_eval.launch:main
