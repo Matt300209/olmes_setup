@@ -5,10 +5,12 @@ Steps for setting up:
 make sure that vllm v0 is active
 (for singularity, add: `--env "VLLM_USE_V1=0"`)
 
-```git clone https://github.com/Matt300209/olmes_setup.git
+```
+git clone https://github.com/Matt300209/olmes_setup.git
 cd olmes_setup
 cd olmes
-pip install -e .[gpu]```
+pip install -e .[gpu]
+```
 
 open `libs/vllm/engine/metrics.py` and change `RAW_DUMP_PATH` to any specified path (this will not be the output)
 
