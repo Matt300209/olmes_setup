@@ -143,10 +143,9 @@ def main():
     batchsizes = BATCHSIZES
     args = _parser.parse_args()
     args_dict = vars(args)
-    #evaluate_model(args_dict, batchsizes)
+    evaluate_model(args_dict, batchsizes)
 
-    #subprocess.run(["bash", "-c", f"""mkdir -p /nas/models/nlu/mdieckmann/olmes_eval/{args_dict["name"]}/results"""], check=True)
-    #get_throughput(args_dict, batchsizes)
+    get_throughput(args_dict, batchsizes)
     get_performance(args_dict, batchsizes)
     
 
