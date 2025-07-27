@@ -130,7 +130,7 @@ class VLLM_Verbose(VLLM):
         print("check llm_engine")
         print(self.model.llm_engine.stat_loggers)
         # Check if stat_loggers are available
-        print(f"last throughput: {self.model.llm_engine.stat_loggers["logging"].last_generation_throughput} " )
+        """print(f"last throughput: {self.model.llm_engine.stat_loggers["logging"].last_generation_throughput} " )"""
         return {}
     def generate_until_verbose(
         self, requests: List[GenerateUntilRequest], disable_tqdm: bool = False
