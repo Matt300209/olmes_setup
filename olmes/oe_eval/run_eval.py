@@ -67,7 +67,7 @@ HAS_AI2_INTERNAL = (
 )
 
 # To run "hf-oldstyle" OLMo models
-try:
+"""try:
     from hf_olmo import *  # noqa: F403
 except ImportError:
     pass
@@ -76,7 +76,7 @@ except ImportError:
 try:
     from open_lm.hf import *  # noqa: F403
 except ImportError:
-    pass
+    pass"""
 
 logger = logging.getLogger()
 
