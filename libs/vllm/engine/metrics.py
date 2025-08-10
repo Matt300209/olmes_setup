@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: Apache-2.0
-
+import os
 import time
 import json
 from typing import TYPE_CHECKING
@@ -462,6 +462,9 @@ class LoggingStatLogger(StatLoggerBase):
         self.num_prompt_tokens.append(stats.num_prompt_tokens_iter)
         self.num_generation_tokens.append(stats.num_generation_tokens_iter)
 
+        # invariant for sisyphus job (for logging in parallel)
+        job_id = os.getenv("SLURM_JOB_ID", "default")
+        
         # Update spec decode metrics
         self.maybe_update_spec_decode_metrics(stats)
 
@@ -484,8 +487,9 @@ class LoggingStatLogger(StatLoggerBase):
                         self.last_generation_throughput)):
                 # Avoid log noise on an idle production system
                 log_fn = logger.debug
+            
             with open(f"{RAW_DUMP_PATH}/unnamed_raw.jsonl", "a") as file:
-                file.write(json.dumps({"now": stats.now, "gen_throughput": generation_throughput, "prompt_throughput": prompt_throughput, "running_requests" :stats.num_running_sys, "cache_usage" : stats.gpu_cache_usage_sys, "decode_time": stats.time_decode_requests, "prefill_time": stats.time_prefill_requests, "e2e": stats.time_e2e_requests, "queue_time": stats.time_in_queue_requests}))
+                file.write(json.dumps({"job_id" : job_id, "now": stats.now, "gen_throughput": generation_throughput, "prompt_throughput": prompt_throughput, "running_requests" :stats.num_running_sys, "cache_usage" : stats.gpu_cache_usage_sys, "decode_time": stats.time_decode_requests, "prefill_time": stats.time_prefill_requests, "e2e": stats.time_e2e_requests, "queue_time": stats.time_in_queue_requests}))
                 file.write("\n")
             log_fn(
                 "Avg prompt throughput: %.1f tokens/s, "
