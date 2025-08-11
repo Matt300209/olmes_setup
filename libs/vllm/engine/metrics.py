@@ -456,7 +456,7 @@ class LoggingStatLogger(StatLoggerBase):
         self.last_generation_throughput: Optional[float] = None
         self.stamp = random.randint(1000, 9999)
         self.olmes_task = olmes_task
-        self.olmes_batchsize = olmes_batchsize
+        self.olmes_batchsize = str(olmes_batchsize)
         
     def log(self, stats: Stats) -> None:
         """Called by LLMEngine.
@@ -492,7 +492,7 @@ class LoggingStatLogger(StatLoggerBase):
                 # Avoid log noise on an idle production system
                 log_fn = logger.debug
             
-            with open(f"{RAW_DUMP_PATH}/unnamed_raw.jsonl", "a") as file:
+            with open(f"{RAW_DUMP_PATH}/{self.olmes_batchsize}/{self.olmes_task}/unnamed_raw.jsonl", "a") as file:
                 file.write(json.dumps({"task": self.olmes_task, "batchsize" : self.olmes_batchsize, "now": stats.now, "gen_throughput": generation_throughput, "prompt_throughput": prompt_throughput, "running_requests" :stats.num_running_sys, "cache_usage" : stats.gpu_cache_usage_sys, "decode_time": stats.time_decode_requests, "prefill_time": stats.time_prefill_requests, "e2e": stats.time_e2e_requests, "queue_time": stats.time_in_queue_requests}))
                 file.write("\n")
             log_fn(
