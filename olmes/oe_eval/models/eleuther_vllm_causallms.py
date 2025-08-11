@@ -53,6 +53,8 @@ class VLLM_Verbose(VLLM):
         # seed: int = 1234,
         # gpu_memory_utilization: float = 0.9,
         # data_parallel_size: int = 1,
+        olmes_task: str = "dummy",
+        olmes_batchsize: int = 0,
         **kwargs,
     ):
         try:
@@ -84,7 +86,7 @@ class VLLM_Verbose(VLLM):
 
         self.vllm_for_mc = kwargs.pop("vllm_for_mc", False)
 
-        super().__init__(pretrained, device=device, **kwargs)
+        super().__init__(pretrained, device=device, olmes_task=olmes_task, olmes_batchsize=olmes_batchsize,  **kwargs)
         print("___________________________________________________")
         source_code = inspect.getsource(self.model.llm_engine.__class__)
         file_path = inspect.getfile(self.model.llm_engine.__class__)
