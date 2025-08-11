@@ -642,6 +642,8 @@ def run_eval(args_dict: dict):
         model_load_config = model_config.copy()
         model_load_config["batch_size"] = compute_config["batch_size"]
         model_load_config["max_batch_size"] = compute_config["max_batch_size"]
+        model_load_config["olmes_task"] = str(task_objects[0].task_name)
+        model_load_config["olmes_batchsize"] = int(compute_config["batch_size"])
 
         # Initialize multiprocess models
         assert (
