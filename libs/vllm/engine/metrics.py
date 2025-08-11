@@ -457,6 +457,8 @@ class LoggingStatLogger(StatLoggerBase):
         self.stamp = random.randint(1000, 9999)
         self.olmes_task = olmes_task
         self.olmes_batchsize = str(olmes_batchsize)
+        local_dirs = os.path.join(RAW_DUMP_PATH, self.olmes_batchsize, self.olmes_task)
+        os.makedirs(local_dirs, exist_ok=True)
         
     def log(self, stats: Stats) -> None:
         """Called by LLMEngine.
