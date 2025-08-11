@@ -60,6 +60,8 @@ class VLLM(TemplateLM):
         device: str = "cuda",
         data_parallel_size: int = 1,
         lora_local_path: str = None,
+        olmes_task: str = "dummy",
+        olmes_batchsize: int = 0,
         **kwargs,
     ):
         super().__init__()
@@ -93,6 +95,8 @@ class VLLM(TemplateLM):
             "swap_space": int(swap_space),
             "quantization": quantization,
             "seed": int(seed),
+            "olmes_task" : olmes_task,
+            "olmes_batchsize" : olmes_batchsize,
         }
         self.model_args.update(kwargs)
         self.batch_size = (
