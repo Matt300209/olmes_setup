@@ -450,11 +450,12 @@ def get_throughput(tracked_stats: List[int], now: float,
 class LoggingStatLogger(StatLoggerBase):
     """LoggingStatLogger is used in LLMEngine to log to Stdout."""
 
-    def __init__(self, local_interval: float, vllm_config: VllmConfig) -> None:
+    def __init__(self, local_interval: float, vllm_config: VllmConfig, olmes_task: str = "dummy", olmes_batchsize: int = 0) -> None:
         super().__init__(local_interval, vllm_config)
         self.last_prompt_throughput: Optional[float] = None
         self.last_generation_throughput: Optional[float] = None
         self.stamp = random.randint(1000, 9999)
+        self.task = olmes_task
         
     def log(self, stats: Stats) -> None:
         """Called by LLMEngine.
