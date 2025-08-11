@@ -214,6 +214,8 @@ class LLMEngine:
         stat_loggers: Optional[Dict[str, StatLoggerBase]] = None,
         mm_registry: MultiModalRegistry = MULTIMODAL_REGISTRY,
         use_cached_outputs: bool = False,
+        olmes_task: str = "dummy",
+        olmes_batchsize: int = 0,
     ) -> None:
         log_stats = True
         if envs.VLLM_USE_V1:
@@ -237,7 +239,8 @@ class LLMEngine:
         self.prompt_adapter_config = vllm_config.prompt_adapter_config  # noqa
         self.observability_config = vllm_config.observability_config or ObservabilityConfig(  # noqa
         )
-
+        self.olmes_task = olmes_task
+        self.olmes_batchsize = olmes_batchsize
         logger.info(
             "Initializing a V0 LLM engine (v%s) with config: %s, "
             "use_cached_outputs=%s, ",
@@ -374,7 +377,10 @@ class LLMEngine:
                     "logging":
                     LoggingStatLogger(
                         local_interval=_LOCAL_LOGGING_INTERVAL_SEC,
-                        vllm_config=vllm_config),
+                        vllm_config=vllm_config,
+                        olmes_task=self.olmes_task,
+                        olmes_batchsize=self.olmes_batchsize,
+                        ),
                     "prometheus":
                     PrometheusStatLogger(
                         local_interval=_LOCAL_LOGGING_INTERVAL_SEC,
@@ -483,6 +489,8 @@ class LLMEngine:
         usage_context: UsageContext = UsageContext.ENGINE_CONTEXT,
         stat_loggers: Optional[Dict[str, StatLoggerBase]] = None,
         disable_log_stats: bool = False,
+        olmes_task: str = "dummy",
+        olmes_batchsize: int = 0,
     ) -> "LLMEngine":
         return cls(
             vllm_config=vllm_config,
@@ -490,6 +498,8 @@ class LLMEngine:
             log_stats=(not disable_log_stats),
             usage_context=usage_context,
             stat_loggers=stat_loggers,
+            olmes_task=olmes_task,
+            olmes_batchsize=olmes_batchsize,
         )
 
     @classmethod
@@ -498,6 +508,8 @@ class LLMEngine:
         engine_args: EngineArgs,
         usage_context: UsageContext = UsageContext.ENGINE_CONTEXT,
         stat_loggers: Optional[Dict[str, StatLoggerBase]] = None,
+        olmes_task: str = "dummy",
+        olmes_batchsize: int = 0,
     ) -> "LLMEngine":
         """Creates an LLM engine from the engine arguments."""
         # Create the engine configs.
@@ -513,6 +525,8 @@ class LLMEngine:
             usage_context=usage_context,
             stat_loggers=stat_loggers,
             disable_log_stats=engine_args.disable_log_stats,
+            olmes_task=olmes_task,
+            olmes_batchsize=olmes_batchsize,
         )
 
     def __reduce__(self):
