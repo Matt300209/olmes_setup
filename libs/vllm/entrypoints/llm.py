@@ -186,6 +186,8 @@ class LLM:
         task: TaskOption = "auto",
         override_pooler_config: Optional[PoolerConfig] = None,
         compilation_config: Optional[Union[int, dict[str, Any]]] = None,
+        olmes_task: str = "dummy",
+        olmes_batchsize: int = 0,
         **kwargs,
     ) -> None:
         '''
@@ -245,7 +247,7 @@ class LLM:
 
         # Create the Engine (autoselects V0 vs V1)
         self.llm_engine = LLMEngine.from_engine_args(
-            engine_args=engine_args, usage_context=UsageContext.LLM_CLASS)
+            engine_args=engine_args, usage_context=UsageContext.LLM_CLASS, olmes_task=olmes_task, olmes_batchsize=olmes_batchsize)
         self.engine_class = type(self.llm_engine)
 
         self.request_counter = Counter()
