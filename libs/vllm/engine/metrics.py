@@ -23,7 +23,7 @@ else:
 if TYPE_CHECKING:
     from vllm.spec_decode.metrics import SpecDecodeWorkerMetrics
 
-RAW_DUMP_PATH = "/home/mdieckmann/olmes_eval/throughput"
+RAW_DUMP_PATH = "/home/mdieckmann/sisyphus3/work/apptek_llm/setups/mdieckmann/eval_jobs/SetupOlmesJob.B0DSqRrI04si/output/raw_throughput"
 logger = init_logger(__name__)
 
 prometheus_client.disable_created_metrics()
